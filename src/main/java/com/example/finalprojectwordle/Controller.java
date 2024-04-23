@@ -74,7 +74,10 @@ public class Controller {
 
     private TextField[][] arr = new TextField[6][5];
 
-    private int currentGuess = 0;
+    private int currGuessRow = 0;
+
+    WordValidation wordValidation = new WordValidation();
+    String randomWord = wordValidation.getRandomWord();
 
     @FXML
     private void initialize() {
@@ -97,6 +100,9 @@ public class Controller {
 
         disableAllGuessesExceptRow(0);
         resetButton.setOnAction(event -> reset());
+
+//        wordValidation.loadWordsFromFile();
+        System.out.println("random word: " + randomWord);
     }
 
     private void disableAllGuessesExceptRow(int row) {
@@ -139,37 +145,81 @@ public class Controller {
     public void reset() {
         clearTextFields();
         disableAllGuessesExceptRow(0);
-        currentGuess = 0;
+        error.setText("");
+        currGuessRow = 0;
         System.out.println("Cleared");
+        for(int i = 0; i < 6; i++) {
+            for(int j = 0; j < 5; j++) {
+                arr[i][j].setStyle(null);
+            }
+        }
+        randomWord = wordValidation.getRandomWord();
+    }
+
+    public String getWord() {
+        String word = "";
+        for(int j = 0; j < 5; j++) {
+            word += arr[currGuessRow][j].getText();
+        }
+        return word;
     }
 
     @FXML
     protected void guess() {
-        System.out.println(currentGuess);
-        if(currentGuess >= 0 && currentGuess <= 4) {
-            if (!isRowFull(currentGuess)) {
-                error.setText("Please enter the full word.");
-                System.out.println("Full word not entered");
-            } else {
-                error.setText("");
-                disableAllGuessesExceptRow(currentGuess + 1);
-                System.out.println("Making guess!");
-                currentGuess++;
-            }
-        } else if (currentGuess == 5) {
-            if(!isRowFull(5)) {
-                error.setText("Please enter the full word.");
-                System.out.println("Full word not entered.");
-            } else {
-                error.setText("");
-                for (int i = 0; i < 6; i++) {
-                    for (int j = 0; j < 5; j++) {
-                        arr[i][j].setDisable(true);
-                    }
+
+        String currGuessWord = getWord();
+        System.out.println("Your guess: " + currGuessWord);
+//        WordValidation wordValidation = new WordValidation();
+//        if(!wordValidation.isValidWord(currGuessWord)) {
+//            error.setText("That's an invalid word!");
+//        } else {
+            System.out.println("currRow: " + currGuessRow);
+            if (currGuessRow >= 0 && currGuessRow <= 4) {
+                if (!isRowFull(currGuessRow)) {
+                    error.setText("Please enter the full word.");
+                    System.out.println("Full word not entered");
+                } else {
+                    error.setText("");
+                    setColor();
+                    disableAllGuessesExceptRow(currGuessRow + 1);
+                    System.out.println("Making guess!");
+                    currGuessRow++;
                 }
-                System.out.println("Making sixth and final guess!");
+            } else if (currGuessRow == 5) {
+                if (!isRowFull(5)) {
+                    error.setText("Please enter the full word.");
+                    System.out.println("Full word not entered.");
+                } else {
+                    error.setText("");
+                    for (int i = 0; i < 6; i++) {
+                        for (int j = 0; j < 5; j++) {
+                            arr[i][j].setDisable(true);
+                        }
+                    }
+                    System.out.println("Making sixth and final guess!");
+                }
             }
-        }
+//        }
     }
 
+    public void setColor() {
+
+        String currGuessWord = getWord();
+        Integer[] checkedWord = wordValidation.checkWord(currGuessWord, randomWord);
+
+        for(int i = 0; i < 5; i++) {
+            if(checkedWord[i] == 2) {
+                arr[currGuessRow][i].setStyle("-fx-background-color: green");
+            } else if (checkedWord[i] == 1) {
+                arr[currGuessRow][i].setStyle("-fx-background-color: orange");
+            } else if (checkedWord[i] == 0) {
+            arr[currGuessRow][i].setStyle("-fx-background-color: gray");
+            }
+        }
+
+    }
+
+//    public static void main(String[] args) {
+//
+//    }
 }
