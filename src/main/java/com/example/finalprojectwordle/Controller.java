@@ -3,8 +3,7 @@ package com.example.finalprojectwordle;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-
-import java.util.ArrayList;
+import javafx.scene.control.Label;
 
 public class Controller {
     @FXML
@@ -70,53 +69,52 @@ public class Controller {
     @FXML
     private TextField guess6letter5;
 
-    ArrayList<TextField> arr = new ArrayList<TextField>();
+    @FXML
+    private Label error;
+
+    private TextField[][] arr = new TextField[6][5];
+
+    private int currentGuess = 0;
 
     @FXML
     private void initialize() {
-        arr.add(guess1letter1);
-        arr.add(guess1letter2);
-        arr.add(guess1letter3);
-        arr.add(guess1letter4);
-        arr.add(guess1letter5);
-        arr.add(guess2letter1);
-        arr.add(guess2letter2);
-        arr.add(guess2letter3);
-        arr.add(guess2letter4);
-        arr.add(guess2letter5);
-        arr.add(guess3letter1);
-        arr.add(guess3letter2);
-        arr.add(guess3letter3);
-        arr.add(guess3letter4);
-        arr.add(guess3letter5);
-        arr.add(guess4letter1);
-        arr.add(guess4letter2);
-        arr.add(guess4letter3);
-        arr.add(guess4letter4);
-        arr.add(guess4letter5);
-        arr.add(guess5letter1);
-        arr.add(guess5letter2);
-        arr.add(guess5letter3);
-        arr.add(guess5letter4);
-        arr.add(guess5letter5);
-        arr.add(guess6letter1);
-        arr.add(guess6letter2);
-        arr.add(guess6letter3);
-        arr.add(guess6letter4);
-        arr.add(guess6letter5);
 
-        for (TextField x: arr) {
-            maxLengthListener(x);
-            x.setDisable(true);
+        TextField[][] guesses = {
+                {guess1letter1, guess1letter2, guess1letter3, guess1letter4, guess1letter5},
+                {guess2letter1, guess2letter2, guess2letter3, guess2letter4, guess2letter5},
+                {guess3letter1, guess3letter2, guess3letter3, guess3letter4, guess3letter5},
+                {guess4letter1, guess4letter2, guess4letter3, guess4letter4, guess4letter5},
+                {guess5letter1, guess5letter2, guess5letter3, guess5letter4, guess5letter5},
+                {guess6letter1, guess6letter2, guess6letter3, guess6letter4, guess6letter5}
+        };
+
+        for (int i = 0; i < 6; i++) {
+            for (int j = 0; j < 5; j++) {
+                arr[i][j] = guesses[i][j];
+                maxLengthListener(arr[i][j]);
+            }
         }
 
-        guess1letter1.setDisable(false);
-        guess1letter2.setDisable(false);
-        guess1letter3.setDisable(false);
-        guess1letter4.setDisable(false);
-        guess1letter5.setDisable(false);
-
+        disableAllGuessesExceptRow(0);
         resetButton.setOnAction(event -> reset());
+    }
+
+    private void disableAllGuessesExceptRow(int row) {
+        for (int i = 0; i < 6; i++) {
+            for (int j = 0; j < 5; j++) {
+                arr[i][j].setDisable(i != row);
+            }
+        }
+    }
+
+    private boolean isRowFull(int row) {
+        for (int j = 0; j < 5; j++) {
+            if (arr[row][j].getText().isEmpty()) {
+                System.out.println(arr[row][j]);
+                return false;
+            }
+        }
+        return true;
     }
 
     @FXML
@@ -130,94 +128,48 @@ public class Controller {
 
     @FXML
     private void clearTextFields() {
-        for(TextField x: arr) {
-            x.clear();
+        for (int i = 0; i < 6; i++) {
+            for (int j = 0; j < 5; j++) {
+                arr[i][j].clear();
+            }
         }
     }
 
     @FXML
     public void reset() {
-        for (TextField x: arr) {
-            x.setDisable(true);
-        }
         clearTextFields();
-        guess1letter1.setDisable(false);
-        guess1letter2.setDisable(false);
-        guess1letter3.setDisable(false);
-        guess1letter4.setDisable(false);
-        guess1letter5.setDisable(false);
+        disableAllGuessesExceptRow(0);
+        currentGuess = 0;
         System.out.println("Cleared");
     }
 
     @FXML
-    protected void guess1() {
-        for(TextField x: arr) {
-            x.setDisable(true);
+    protected void guess() {
+        System.out.println(currentGuess);
+        if(currentGuess >= 0 && currentGuess <= 4) {
+            if (!isRowFull(currentGuess)) {
+                error.setText("Please enter the full word.");
+                System.out.println("Full word not entered");
+            } else {
+                error.setText("");
+                disableAllGuessesExceptRow(currentGuess + 1);
+                System.out.println("Making guess!");
+                currentGuess++;
+            }
+        } else if (currentGuess == 5) {
+            if(!isRowFull(5)) {
+                error.setText("Please enter the full word.");
+                System.out.println("Full word not entered.");
+            } else {
+                error.setText("");
+                for (int i = 0; i < 6; i++) {
+                    for (int j = 0; j < 5; j++) {
+                        arr[i][j].setDisable(true);
+                    }
+                }
+                System.out.println("Making sixth and final guess!");
+            }
         }
-        guess2letter1.setDisable(false);
-        guess2letter2.setDisable(false);
-        guess2letter3.setDisable(false);
-        guess2letter4.setDisable(false);
-        guess2letter5.setDisable(false);
-        System.out.println("Making first guess!");
     }
 
-    @FXML
-    protected void guess2() {
-        for(TextField x: arr) {
-            x.setDisable(true);
-        }
-        guess3letter1.setDisable(false);
-        guess3letter2.setDisable(false);
-        guess3letter3.setDisable(false);
-        guess3letter4.setDisable(false);
-        guess3letter5.setDisable(false);
-        System.out.println("Making second guess!");
-    }
-
-    @FXML
-    protected void guess3() {
-        for(TextField x: arr) {
-            x.setDisable(true);
-        }
-        guess4letter1.setDisable(false);
-        guess4letter2.setDisable(false);
-        guess4letter3.setDisable(false);
-        guess4letter4.setDisable(false);
-        guess4letter5.setDisable(false);
-        System.out.println("Making third guess!");
-    }
-
-    @FXML
-    protected void guess4() {
-        for(TextField x: arr) {
-            x.setDisable(true);
-        }
-        guess5letter1.setDisable(false);
-        guess5letter2.setDisable(false);
-        guess5letter3.setDisable(false);
-        guess5letter4.setDisable(false);
-        guess5letter5.setDisable(false);
-        System.out.println("Making fourth guess!");
-    }
-
-    @FXML
-    protected void guess5() {
-        for(TextField x: arr) {
-            x.setDisable(true);
-        }
-        guess6letter1.setDisable(false);
-        guess6letter2.setDisable(false);
-        guess6letter3.setDisable(false);
-        guess6letter4.setDisable(false);
-        guess6letter5.setDisable(false);
-        System.out.println("Making fifth guess!");
-    }
-    @FXML
-    protected void guess6() {
-        for(TextField x: arr) {
-            x.setDisable(true);
-        }
-        System.out.println("Making sixth and final guess!");
-    }
 }
