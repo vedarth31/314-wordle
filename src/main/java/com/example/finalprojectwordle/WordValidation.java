@@ -76,11 +76,9 @@ public class WordValidation {
             }
         }
 
-
-
-        for(Integer x: checkedWord) {
-            System.out.println(x);
-        }
+//        for(Integer x: checkedWord) {
+//            System.out.println(x);
+//        }
 
         return checkedWord;
     }

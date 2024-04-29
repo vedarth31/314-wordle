@@ -1,80 +1,82 @@
 package com.example.finalprojectwordle;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javax.swing.*;
+//import javafx.scene.control.Label;
 
 public class Controller {
-    @FXML
-    private Button resetButton;
-    @FXML
-    private TextField guess1letter1;
-    @FXML
-    private TextField guess1letter2;
-    @FXML
-    private TextField guess1letter3;
-    @FXML
-    private TextField guess1letter4;
-    @FXML
-    private TextField guess1letter5;
-    @FXML
-    private TextField guess2letter1;
-    @FXML
-    private TextField guess2letter2;
-    @FXML
-    private TextField guess2letter3;
-    @FXML
-    private TextField guess2letter4;
-    @FXML
-    private TextField guess2letter5;
-    @FXML
-    private TextField guess3letter1;
-    @FXML
-    private TextField guess3letter2;
-    @FXML
-    private TextField guess3letter3;
-    @FXML
-    private TextField guess3letter4;
-    @FXML
-    private TextField guess3letter5;
-    @FXML
-    private TextField guess4letter1;
-    @FXML
-    private TextField guess4letter2;
-    @FXML
-    private TextField guess4letter3;
-    @FXML
-    private TextField guess4letter4;
-    @FXML
-    private TextField guess4letter5;
-    @FXML
-    private TextField guess5letter1;
-    @FXML
-    private TextField guess5letter2;
-    @FXML
-    private TextField guess5letter3;
-    @FXML
-    private TextField guess5letter4;
-    @FXML
-    private TextField guess5letter5;
-    @FXML
-    private TextField guess6letter1;
-    @FXML
-    private TextField guess6letter2;
-    @FXML
-    private TextField guess6letter3;
-    @FXML
-    private TextField guess6letter4;
-    @FXML
-    private TextField guess6letter5;
+    @FXML private Button resetButton;
+    @FXML private TextField guess1letter1;
+    @FXML private TextField guess1letter2;
+    @FXML private TextField guess1letter3;
+    @FXML private TextField guess1letter4;
+    @FXML private TextField guess1letter5;
+    @FXML private TextField guess2letter1;
+    @FXML private TextField guess2letter2;
+    @FXML private TextField guess2letter3;
+    @FXML private TextField guess2letter4;
+    @FXML private TextField guess2letter5;
+    @FXML private TextField guess3letter1;
+    @FXML private TextField guess3letter2;
+    @FXML private TextField guess3letter3;
+    @FXML private TextField guess3letter4;
+    @FXML private TextField guess3letter5;
+    @FXML private TextField guess4letter1;
+    @FXML private TextField guess4letter2;
+    @FXML private TextField guess4letter3;
+    @FXML private TextField guess4letter4;
+    @FXML private TextField guess4letter5;
+    @FXML private TextField guess5letter1;
+    @FXML private TextField guess5letter2;
+    @FXML private TextField guess5letter3;
+    @FXML private TextField guess5letter4;
+    @FXML private TextField guess5letter5;
+    @FXML private TextField guess6letter1;
+    @FXML private TextField guess6letter2;
+    @FXML private TextField guess6letter3;
+    @FXML private TextField guess6letter4;
+    @FXML private TextField guess6letter5;
+
+    @FXML private Button A;
+    @FXML private Button B;
+    @FXML private Button C;
+    @FXML private Button D;
+    @FXML private Button E;
+    @FXML private Button F;
+    @FXML private Button G;
+    @FXML private Button H;
+    @FXML private Button I;
+    @FXML private Button J;
+    @FXML private Button K;
+    @FXML private Button L;
+    @FXML private Button M;
+    @FXML private Button N;
+    @FXML private Button O;
+    @FXML private Button P;
+    @FXML private Button Q;
+    @FXML private Button R;
+    @FXML private Button S;
+    @FXML private Button T;
+    @FXML private Button U;
+    @FXML private Button V;
+    @FXML private Button W;
+    @FXML private Button X;
+    @FXML private Button Y;
+    @FXML private Button Z;
+
 
     @FXML
     private Label error;
 
     private TextField[][] arr = new TextField[6][5];
+    private Button[] keyboard = new Button[26];
 
     private int currGuessRow = 0;
+    private int currGuessCol;
 
     WordValidation wordValidation = new WordValidation();
     String randomWord = wordValidation.getRandomWord();
@@ -98,12 +100,58 @@ public class Controller {
             }
         }
 
+        Button[] letters = {A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z};
+        for(int i = 0; i < 25; i++) {
+            keyboard[i] = letters[i];
+        }
+
         disableAllGuessesExceptRow(0);
         resetButton.setOnAction(event -> reset());
 
 //        wordValidation.loadWordsFromFile();
         System.out.println("random word: " + randomWord);
     }
+
+    @FXML
+    private void clickLetter(ActionEvent e) {
+        if(currGuessCol >= 5) {
+            return;
+        }
+        Button clicked = (Button) e.getSource();
+        String guessedLetter = clicked.getText();
+        arr[currGuessRow][currGuessCol].setText(guessedLetter);
+
+        currGuessCol++;
+        nextLetter(currGuessRow);
+    }
+
+    private void nextLetter(int row) {
+        int nextRow = row;
+        int nextColumn = 0;
+
+        TextField focusedTextField = null;
+        for (int i = 0; i < 5; i++) {
+            if (arr[row][i].isFocused()) {
+                focusedTextField = arr[row][i];
+                break;
+            }
+        }
+
+        if (focusedTextField == null) {
+            nextColumn = 0;
+        } else {
+            for (int i = 0; i < 4; i++) {
+                if (arr[row][i] == focusedTextField) {
+                    nextColumn = i + 1;
+                    break;
+                }
+            }
+        }
+        if (nextRow < 6 && nextColumn < 5) {
+            arr[nextRow][nextColumn].requestFocus();
+        }
+    }
+
 
     private void disableAllGuessesExceptRow(int row) {
         for (int i = 0; i < 6; i++) {
@@ -153,7 +201,13 @@ public class Controller {
                 arr[i][j].setStyle(null);
             }
         }
+
+        for(int i = 0; i < 25; i++) {
+            keyboard[i].setStyle(null);
+        }
+
         randomWord = wordValidation.getRandomWord();
+        currGuessCol = 0;
     }
 
     public String getWord() {
@@ -168,6 +222,7 @@ public class Controller {
     protected void guess() {
 
         String currGuessWord = getWord();
+        currGuessCol = 0;
         System.out.println("Your guess: " + currGuessWord);
 //        WordValidation wordValidation = new WordValidation();
 //        if(!wordValidation.isValidWord(currGuessWord)) {
@@ -205,18 +260,36 @@ public class Controller {
     public void setColor() {
 
         String currGuessWord = getWord();
-        Integer[] checkedWord = wordValidation.checkWord(currGuessWord, randomWord);
+        Integer[] checkedWord = wordValidation.checkWord(currGuessWord.toLowerCase(), randomWord);
 
         for(int i = 0; i < 5; i++) {
             if(checkedWord[i] == 2) {
                 arr[currGuessRow][i].setStyle("-fx-background-color: green");
+                keyboard[((int) currGuessWord.charAt(i)) - 65].setStyle("-fx-background-color: green");
             } else if (checkedWord[i] == 1) {
                 arr[currGuessRow][i].setStyle("-fx-background-color: orange");
+                keyboard[((int) currGuessWord.charAt(i)) - 65].setStyle("-fx-background-color: orange");
             } else if (checkedWord[i] == 0) {
-            arr[currGuessRow][i].setStyle("-fx-background-color: gray");
+                arr[currGuessRow][i].setStyle("-fx-background-color: gray");
+                keyboard[((int) currGuessWord.charAt(i)) - 65].setStyle("-fx-background-color: gray");
             }
         }
+        checkWin(checkedWord);
+    }
 
+    public boolean checkWin(Integer[] checkedInts) {
+        for(int i = 0; i < 5; i++) {
+            if (checkedInts[i] != 2){
+                return false;
+            }
+        }
+        error.setText("you won!");
+        for (int i = 0; i < 6; i++) {
+            for (int j = 0; j < 5; j++) {
+                arr[i][j].setDisable(true);
+            }
+        }
+        return true;
     }
 
 //    public static void main(String[] args) {

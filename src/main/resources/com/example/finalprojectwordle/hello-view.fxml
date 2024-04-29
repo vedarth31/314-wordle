@@ -6,45 +6,188 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="580.0" prefWidth="384.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.finalprojectwordle.Controller">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="508.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.finalprojectwordle.Controller">
    <children>
-      <Button fx:id="resetButton" layoutX="109.0" layoutY="463.0" onAction="#reset" prefHeight="48.0" prefWidth="73.0" text="Reset" />
-      <TextField fx:id="guess1letter1" layoutX="73.0" layoutY="98.0" prefHeight="48.0" prefWidth="48.0" />
-      <TextField fx:id="guess1letter2" layoutX="121.0" layoutY="98.0" prefHeight="48.0" prefWidth="48.0" />
-      <TextField fx:id="guess1letter3" layoutX="169.0" layoutY="98.0" prefHeight="48.0" prefWidth="48.0" />
-      <TextField fx:id="guess1letter4" layoutX="217.0" layoutY="98.0" prefHeight="48.0" prefWidth="48.0" />
-      <TextField fx:id="guess1letter5" layoutX="265.0" layoutY="98.0" prefHeight="48.0" prefWidth="48.0" />
-      <TextField fx:id="guess2letter1" layoutX="73.0" layoutY="157.0" prefHeight="48.0" prefWidth="48.0" />
-      <TextField fx:id="guess2letter2" layoutX="121.0" layoutY="157.0" prefHeight="48.0" prefWidth="48.0" />
-      <TextField fx:id="guess2letter3" layoutX="169.0" layoutY="157.0" prefHeight="48.0" prefWidth="48.0" />
-      <TextField fx:id="guess2letter4" layoutX="217.0" layoutY="157.0" prefHeight="48.0" prefWidth="48.0" />
-      <TextField fx:id="guess2letter5" layoutX="265.0" layoutY="157.0" prefHeight="48.0" prefWidth="48.0" />
-      <TextField fx:id="guess3letter1" layoutX="73.0" layoutY="215.0" prefHeight="48.0" prefWidth="48.0" />
-      <TextField fx:id="guess3letter2" layoutX="121.0" layoutY="215.0" prefHeight="48.0" prefWidth="48.0" />
-      <TextField fx:id="guess3letter3" layoutX="169.0" layoutY="215.0" prefHeight="48.0" prefWidth="48.0" />
-      <TextField fx:id="guess3letter4" layoutX="217.0" layoutY="215.0" prefHeight="48.0" prefWidth="48.0" />
-      <TextField fx:id="guess3letter5" layoutX="265.0" layoutY="215.0" prefHeight="48.0" prefWidth="48.0" />
-      <TextField fx:id="guess4letter1" layoutX="73.0" layoutY="272.0" prefHeight="48.0" prefWidth="48.0" />
-      <TextField fx:id="guess4letter2" layoutX="121.0" layoutY="272.0" prefHeight="48.0" prefWidth="48.0" />
-      <TextField fx:id="guess4letter3" layoutX="169.0" layoutY="272.0" prefHeight="48.0" prefWidth="48.0" />
-      <TextField fx:id="guess4letter4" layoutX="217.0" layoutY="272.0" prefHeight="48.0" prefWidth="48.0" />
-      <TextField fx:id="guess4letter5" layoutX="265.0" layoutY="272.0" prefHeight="48.0" prefWidth="48.0" />
-      <TextField fx:id="guess5letter1" layoutX="73.0" layoutY="330.0" prefHeight="48.0" prefWidth="48.0" />
-      <TextField fx:id="guess5letter2" layoutX="121.0" layoutY="330.0" prefHeight="48.0" prefWidth="48.0" />
-      <TextField fx:id="guess5letter3" layoutX="169.0" layoutY="330.0" prefHeight="48.0" prefWidth="48.0" />
-      <TextField fx:id="guess5letter4" layoutX="217.0" layoutY="330.0" prefHeight="48.0" prefWidth="48.0" />
-      <TextField fx:id="guess5letter5" layoutX="265.0" layoutY="330.0" prefHeight="48.0" prefWidth="48.0" />
-      <TextField fx:id="guess6letter1" layoutX="73.0" layoutY="387.0" prefHeight="48.0" prefWidth="48.0" />
-      <TextField fx:id="guess6letter2" layoutX="121.0" layoutY="387.0" prefHeight="48.0" prefWidth="48.0" />
-      <TextField fx:id="guess6letter3" layoutX="169.0" layoutY="387.0" prefHeight="48.0" prefWidth="48.0" />
-      <TextField fx:id="guess6letter4" layoutX="217.0" layoutY="387.0" prefHeight="48.0" prefWidth="48.0" />
-      <TextField fx:id="guess6letter5" layoutX="265.0" layoutY="387.0" prefHeight="48.0" prefWidth="48.0" />
-      <Button layoutX="205.0" layoutY="463.0" onAction="#guess" prefHeight="48.0" prefWidth="73.0" text="Guess" />
-      <Label fx:id="error" layoutX="73.0" layoutY="537.0" prefHeight="17.0" prefWidth="240.0" textAlignment="CENTER" />
-      <Label layoutX="121.0" layoutY="38.0" prefHeight="39.0" prefWidth="142.0" text="WORDLE" textAlignment="CENTER">
+      <Button fx:id="resetButton" layoutX="178.0" layoutY="656.0" onAction="#reset" prefHeight="48.0" prefWidth="73.0" text="Reset" />
+      <TextField fx:id="guess1letter1" layoutX="108.0" layoutY="97.0" prefHeight="48.0" prefWidth="48.0" />
+      <TextField fx:id="guess1letter2" layoutX="168.0" layoutY="97.0" prefHeight="48.0" prefWidth="48.0" />
+      <TextField fx:id="guess1letter3" layoutX="228.0" layoutY="97.0" prefHeight="48.0" prefWidth="48.0" />
+      <TextField fx:id="guess1letter4" layoutX="288.0" layoutY="97.0" prefHeight="48.0" prefWidth="48.0" />
+      <TextField fx:id="guess1letter5" layoutX="348.0" layoutY="97.0" prefHeight="48.0" prefWidth="48.0" />
+      <TextField fx:id="guess2letter1" layoutX="108.0" layoutY="156.0" prefHeight="48.0" prefWidth="48.0" />
+      <TextField fx:id="guess2letter2" layoutX="168.0" layoutY="156.0" prefHeight="48.0" prefWidth="48.0" />
+      <TextField fx:id="guess2letter3" layoutX="228.0" layoutY="156.0" prefHeight="48.0" prefWidth="48.0" />
+      <TextField fx:id="guess2letter4" layoutX="288.0" layoutY="156.0" prefHeight="48.0" prefWidth="48.0" />
+      <TextField fx:id="guess2letter5" layoutX="348.0" layoutY="156.0" prefHeight="48.0" prefWidth="48.0" />
+      <TextField fx:id="guess3letter1" layoutX="108.0" layoutY="214.0" prefHeight="48.0" prefWidth="48.0" />
+      <TextField fx:id="guess3letter2" layoutX="168.0" layoutY="214.0" prefHeight="48.0" prefWidth="48.0" />
+      <TextField fx:id="guess3letter3" layoutX="228.0" layoutY="214.0" prefHeight="48.0" prefWidth="48.0" />
+      <TextField fx:id="guess3letter4" layoutX="288.0" layoutY="214.0" prefHeight="48.0" prefWidth="48.0" />
+      <TextField fx:id="guess3letter5" layoutX="348.0" layoutY="214.0" prefHeight="48.0" prefWidth="48.0" />
+      <TextField fx:id="guess4letter1" layoutX="108.0" layoutY="271.0" prefHeight="48.0" prefWidth="48.0" />
+      <TextField fx:id="guess4letter2" layoutX="168.0" layoutY="271.0" prefHeight="48.0" prefWidth="48.0" />
+      <TextField fx:id="guess4letter3" layoutX="228.0" layoutY="271.0" prefHeight="48.0" prefWidth="48.0" />
+      <TextField fx:id="guess4letter4" layoutX="288.0" layoutY="271.0" prefHeight="48.0" prefWidth="48.0" />
+      <TextField fx:id="guess4letter5" layoutX="348.0" layoutY="271.0" prefHeight="48.0" prefWidth="48.0" />
+      <TextField fx:id="guess5letter1" layoutX="108.0" layoutY="329.0" prefHeight="48.0" prefWidth="48.0" />
+      <TextField fx:id="guess5letter2" layoutX="168.0" layoutY="329.0" prefHeight="48.0" prefWidth="48.0" />
+      <TextField fx:id="guess5letter3" layoutX="228.0" layoutY="329.0" prefHeight="48.0" prefWidth="48.0" />
+      <TextField fx:id="guess5letter4" layoutX="288.0" layoutY="329.0" prefHeight="48.0" prefWidth="48.0" />
+      <TextField fx:id="guess5letter5" layoutX="348.0" layoutY="329.0" prefHeight="48.0" prefWidth="48.0" />
+      <TextField fx:id="guess6letter1" layoutX="108.0" layoutY="386.0" prefHeight="48.0" prefWidth="48.0" />
+      <TextField fx:id="guess6letter2" layoutX="168.0" layoutY="386.0" prefHeight="48.0" prefWidth="48.0" />
+      <TextField fx:id="guess6letter3" layoutX="228.0" layoutY="386.0" prefHeight="48.0" prefWidth="48.0" />
+      <TextField fx:id="guess6letter4" layoutX="288.0" layoutY="386.0" prefHeight="48.0" prefWidth="48.0" />
+      <TextField fx:id="guess6letter5" layoutX="348.0" layoutY="386.0" prefHeight="48.0" prefWidth="48.0" />
+      <Label layoutX="181.0" layoutY="38.0" prefHeight="39.0" prefWidth="142.0" text="WORDLE" textAlignment="CENTER">
          <font>
             <Font size="35.0" />
          </font>
       </Label>
+      <Button fx:id="Q" alignment="CENTER" layoutX="56.0" layoutY="465.0" mnemonicParsing="false" onAction="#clickLetter" prefHeight="48.0" prefWidth="36.0" style="-fx-border-color: black;" text="Q">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Button>
+      <Button fx:id="W" alignment="CENTER" layoutX="96.0" layoutY="465.0" mnemonicParsing="false" onAction="#clickLetter" prefHeight="48.0" prefWidth="36.0" style="-fx-border-color: black;" text="W">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Button>
+      <Button fx:id="E" alignment="CENTER" layoutX="136.0" layoutY="465.0" mnemonicParsing="false" onAction="#clickLetter" prefHeight="48.0" prefWidth="36.0" style="-fx-border-color: black;" text="E">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Button>
+      <Button fx:id="R" alignment="CENTER" layoutX="176.0" layoutY="465.0" mnemonicParsing="false" onAction="#clickLetter" prefHeight="48.0" prefWidth="36.0" style="-fx-border-color: black;" text="R">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Button>
+      <Button fx:id="T" alignment="CENTER" layoutX="216.0" layoutY="465.0" mnemonicParsing="false" onAction="#clickLetter" prefHeight="48.0" prefWidth="36.0" style="-fx-border-color: black;" text="T">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Button>
+      <Button fx:id="Y" alignment="CENTER" layoutX="256.0" layoutY="465.0" mnemonicParsing="false" onAction="#clickLetter" prefHeight="48.0" prefWidth="36.0" style="-fx-border-color: black;" text="Y">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Button>
+      <Button fx:id="U" alignment="CENTER" layoutX="296.0" layoutY="465.0" mnemonicParsing="false" onAction="#clickLetter" prefHeight="48.0" prefWidth="36.0" style="-fx-border-color: black;" text="U">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Button>
+      <Button fx:id="I" alignment="CENTER" layoutX="336.0" layoutY="465.0" mnemonicParsing="false" onAction="#clickLetter" prefHeight="48.0" prefWidth="36.0" style="-fx-border-color: black;" text="I">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Button>
+      <Button fx:id="O" alignment="CENTER" layoutX="376.0" layoutY="465.0" mnemonicParsing="false" onAction="#clickLetter" prefHeight="48.0" prefWidth="36.0" style="-fx-border-color: black;" text="O">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Button>
+      <Button fx:id="P" alignment="CENTER" layoutX="416.0" layoutY="465.0" mnemonicParsing="false" onAction="#clickLetter" prefHeight="48.0" prefWidth="36.0" style="-fx-border-color: black;" text="P">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Button>
+      <Button fx:id="A" alignment="CENTER" layoutX="76.0" layoutY="522.0" mnemonicParsing="false" onAction="#clickLetter" prefHeight="48.0" prefWidth="36.0" style="-fx-border-color: black;" text="A">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Button>
+      <Button fx:id="S" alignment="CENTER" layoutX="116.0" layoutY="522.0" mnemonicParsing="false" onAction="#clickLetter" prefHeight="48.0" prefWidth="36.0" style="-fx-border-color: black;" text="S">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Button>
+      <Button fx:id="D" alignment="CENTER" layoutX="156.0" layoutY="522.0" mnemonicParsing="false" onAction="#clickLetter" prefHeight="48.0" prefWidth="36.0" style="-fx-border-color: black;" text="D">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Button>
+      <Button fx:id="F" alignment="CENTER" layoutX="196.0" layoutY="522.0" mnemonicParsing="false" onAction="#clickLetter" prefHeight="48.0" prefWidth="36.0" style="-fx-border-color: black;" text="F">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Button>
+      <Button fx:id="G" alignment="CENTER" layoutX="236.0" layoutY="522.0" mnemonicParsing="false" onAction="#clickLetter" prefHeight="48.0" prefWidth="36.0" style="-fx-border-color: black;" text="G">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Button>
+      <Button fx:id="H" alignment="CENTER" layoutX="276.0" layoutY="522.0" mnemonicParsing="false" onAction="#clickLetter" prefHeight="48.0" prefWidth="36.0" style="-fx-border-color: black;" text="H">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Button>
+      <Button fx:id="J" alignment="CENTER" layoutX="316.0" layoutY="522.0" mnemonicParsing="false" onAction="#clickLetter" prefHeight="48.0" prefWidth="36.0" style="-fx-border-color: black;" text="J">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Button>
+      <Button fx:id="K" alignment="CENTER" layoutX="356.0" layoutY="522.0" mnemonicParsing="false" onAction="#clickLetter" prefHeight="48.0" prefWidth="36.0" style="-fx-border-color: black;" text="K">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Button>
+      <Button fx:id="L" alignment="CENTER" layoutX="396.0" layoutY="522.0" mnemonicParsing="false" onAction="#clickLetter" prefHeight="48.0" prefWidth="36.0" style="-fx-border-color: black;" text="L">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Button>
+      <Button alignment="CENTER" layoutX="56.0" layoutY="579.0" mnemonicParsing="false" onAction="#guess" prefHeight="48.0" prefWidth="56.0" style="-fx-border-color: black;" text="Enter">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Button>
+      <Label fx:id="error" layoutX="132.0" layoutY="719.0" prefHeight="17.0" prefWidth="240.0" textAlignment="CENTER">
+         <font>
+            <Font size="22.0" />
+         </font>
+      </Label>
+      <Button fx:id="Z" alignment="CENTER" layoutX="116.0" layoutY="579.0" mnemonicParsing="false" onAction="#clickLetter" prefHeight="48.0" prefWidth="36.0" style="-fx-border-color: black;" text="Z">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Button>
+      <Button fx:id="X" alignment="CENTER" layoutX="156.0" layoutY="579.0" mnemonicParsing="false" onAction="#clickLetter" prefHeight="48.0" prefWidth="36.0" style="-fx-border-color: black;" text="X">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Button>
+      <Button fx:id="C" alignment="CENTER" layoutX="196.0" layoutY="579.0" mnemonicParsing="false" onAction="#clickLetter" prefHeight="48.0" prefWidth="36.0" style="-fx-border-color: black;" text="C">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Button>
+      <Button fx:id="V" alignment="CENTER" layoutX="236.0" layoutY="579.0" mnemonicParsing="false" onAction="#clickLetter" prefHeight="48.0" prefWidth="36.0" style="-fx-border-color: black;" text="V">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Button>
+      <Button fx:id="B" alignment="CENTER" layoutX="276.0" layoutY="579.0" mnemonicParsing="false" onAction="#clickLetter" prefHeight="48.0" prefWidth="36.0" style="-fx-border-color: black;" text="B">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Button>
+      <Button fx:id="N" alignment="CENTER" layoutX="316.0" layoutY="579.0" mnemonicParsing="false" onAction="#clickLetter" prefHeight="48.0" prefWidth="36.0" style="-fx-border-color: black;" text="N">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Button>
+      <Button fx:id="M" alignment="CENTER" layoutX="356.0" layoutY="579.0" mnemonicParsing="false" onAction="#clickLetter" prefHeight="48.0" prefWidth="36.0" style="-fx-border-color: black;" text="M">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Button>
+      <Button fx:id="delete" alignment="CENTER" layoutX="396.0" layoutY="579.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="56.0" style="-fx-border-color: black;" text="Del">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Button>
    </children>
 </Pane>
