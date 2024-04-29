@@ -8,7 +8,7 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="508.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.finalprojectwordle.Controller">
    <children>
-      <Button fx:id="resetButton" layoutX="178.0" layoutY="656.0" onAction="#reset" prefHeight="48.0" prefWidth="73.0" text="Reset" />
+      <Button fx:id="resetButton" layoutX="218.0" layoutY="656.0" onAction="#reset" prefHeight="48.0" prefWidth="73.0" text="Reset" />
       <TextField fx:id="guess1letter1" layoutX="108.0" layoutY="97.0" prefHeight="48.0" prefWidth="48.0" />
       <TextField fx:id="guess1letter2" layoutX="168.0" layoutY="97.0" prefHeight="48.0" prefWidth="48.0" />
       <TextField fx:id="guess1letter3" layoutX="228.0" layoutY="97.0" prefHeight="48.0" prefWidth="48.0" />

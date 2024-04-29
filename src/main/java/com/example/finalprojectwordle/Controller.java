@@ -2,11 +2,16 @@ package com.example.finalprojectwordle;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javax.swing.*;
-//import javafx.scene.control.Label;
+import javafx.stage.Stage;
+
+import java.io.IOException;
+
 
 public class Controller {
     @FXML private Button resetButton;
@@ -68,7 +73,6 @@ public class Controller {
     @FXML private Button Y;
     @FXML private Button Z;
 
-
     @FXML
     private Label error;
 
@@ -80,6 +84,18 @@ public class Controller {
 
     WordValidation wordValidation = new WordValidation();
     String randomWord = wordValidation.getRandomWord();
+
+    private int numTotalWins = 0;
+
+    public int getNumTotalWins() {
+        return numTotalWins;
+    }
+
+    int[] guessDistribution = new int[6];
+
+    public int[] getGuessDistribution() {
+        return guessDistribution;
+    }
 
     @FXML
     private void initialize() {
@@ -101,7 +117,7 @@ public class Controller {
         }
 
         Button[] letters = {A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z};
-        for(int i = 0; i < 25; i++) {
+        for(int i = 0; i < 26; i++) {
             keyboard[i] = letters[i];
         }
 
@@ -202,8 +218,9 @@ public class Controller {
             }
         }
 
-        for(int i = 0; i < 25; i++) {
+        for(int i = 0; i < 26; i++) {
             keyboard[i].setStyle(null);
+            keyboard[i].setStyle("-fx-border-color: gray");
         }
 
         randomWord = wordValidation.getRandomWord();
@@ -222,6 +239,7 @@ public class Controller {
     protected void guess() {
 
         String currGuessWord = getWord();
+        Integer[] checkedWord = wordValidation.checkWord(currGuessWord.toLowerCase(), randomWord);
         currGuessCol = 0;
         System.out.println("Your guess: " + currGuessWord);
 //        WordValidation wordValidation = new WordValidation();
@@ -235,7 +253,8 @@ public class Controller {
                     System.out.println("Full word not entered");
                 } else {
                     error.setText("");
-                    setColor();
+                    setColor(checkedWord);
+                    checkWin(checkedWord);
                     disableAllGuessesExceptRow(currGuessRow + 1);
                     System.out.println("Making guess!");
                     currGuessRow++;
@@ -257,10 +276,9 @@ public class Controller {
 //        }
     }
 
-    public void setColor() {
+    public void setColor(Integer [] checkedWord) {
 
         String currGuessWord = getWord();
-        Integer[] checkedWord = wordValidation.checkWord(currGuessWord.toLowerCase(), randomWord);
 
         for(int i = 0; i < 5; i++) {
             if(checkedWord[i] == 2) {
@@ -274,13 +292,12 @@ public class Controller {
                 keyboard[((int) currGuessWord.charAt(i)) - 65].setStyle("-fx-background-color: gray");
             }
         }
-        checkWin(checkedWord);
     }
 
-    public boolean checkWin(Integer[] checkedInts) {
+    public void checkWin(Integer[] checkedInts) {
         for(int i = 0; i < 5; i++) {
             if (checkedInts[i] != 2){
-                return false;
+                return;
             }
         }
         error.setText("you won!");
@@ -289,10 +306,27 @@ public class Controller {
                 arr[i][j].setDisable(true);
             }
         }
-        return true;
+        numTotalWins++;
+        guessDistribution[currGuessRow]++;
+        displayStatsBoard();
     }
 
-//    public static void main(String[] args) {
-//
-//    }
+    public void displayStatsBoard() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("StatsBoard.fxml"));
+            Parent root = loader.load();
+
+            StatsBoardController statsBoardController = loader.getController();
+            statsBoardController.setMainController(this);
+            statsBoardController.updateStats(guessDistribution, numTotalWins);
+
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Stats Board");
+            stage.show();
+//            StatsBoardController.showStats();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
