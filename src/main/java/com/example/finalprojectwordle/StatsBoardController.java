@@ -33,8 +33,10 @@ public class StatsBoardController {
     private Label num6GuessWins;
 
     @FXML
-    private Button playAgainButton;
+    private Label gameStatus;
 
+//    @FXML
+//    private Button playAgainButton;
 
     private Controller mainController;
 
@@ -42,15 +44,14 @@ public class StatsBoardController {
         this.mainController = mainController;
     }
 
-    public void initialize() {
+    public void updateStats(int numGamesPlayed, boolean gameResult, int[] guessDistributions, int numTotalWins) {
 
-//        int[] guesses = mainController.getGuessDistribution();
-//        int numGamesWon = mainController.getNumTotalWins();
-//        System.out.println(guesses);
-//        gamesWonLabel.setText("" + numGamesWon);
-    }
+        if(!gameResult) {
+            gameStatus.setText("Game over, you lost.");
+        }
 
-    public void updateStats(int[] guessDistributions, int numTotalWins) {
+        gamesPlayedLabel.setText("" + numGamesPlayed);
+
         num1GuessWin.setText("" + guessDistributions[0]);
         num2GuessWin.setText("" + guessDistributions[1]);
         num3GuessWins.setText("" + guessDistributions[2]);

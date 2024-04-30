@@ -1,10 +1,7 @@
 package com.example.finalprojectwordle;
 
 import java.io.FileInputStream;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -21,10 +18,7 @@ public class WordValidation {
         try (BufferedReader reader = new BufferedReader(new FileReader("/Users/vedarth/college/CSCE314/FinalProject-Wordle/src/main/java/com/example/finalprojectwordle/word-list.txt"))) {
             String line;
             while ((line = reader.readLine()) != null) {
-                String[] words = line.trim().toLowerCase().split("\\s+");
-                for (String word : words) {
-                    wordSet.add(word);
-                }
+                wordSet.add(line.trim()); // Add the entire line as it is
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -36,10 +30,6 @@ public class WordValidation {
             System.out.println(s);
         }
     }
-
-//    public static void main(String[] args) {
-//        print();
-//    }
 
     public String getRandomWord() {
         String[] wordArray = wordSet.toArray(new String[0]);
@@ -54,34 +44,39 @@ public class WordValidation {
     }
 
     public boolean isValidWord(String guess) {
-//        System.out.println("Testing valid word: " + guess);
-//        System.out.println("Printing words: " );
-//        print();
         return wordSet.contains(guess);
     }
 
-    public Integer[] checkWord(String guess, String randomWord) {
-        //0 - letter not in word
-        //1 - letter in word, incorrect placement
-        //2 - letter in word, correct placement
+        public Integer[] checkWord(String guess, String randomWord) {
+            // 0 - letter not in word
+            // 1 - letter in word, incorrect placement
+            // 2 - letter in word, correct placement
 
-        Integer[] checkedWord = new Integer[5];
-        for(int i = 0; i < guess.length(); i++) {
-            if(guess.charAt(i) == randomWord.charAt(i)) {
-                checkedWord[i] = 2;
-            } else if (randomWord.indexOf(guess.charAt(i)) != -1) {
-                checkedWord[i] = 1;
-            } else {
-                checkedWord[i] = 0;
+            Integer[] checkedWord = new Integer[5];
+            int[] guessCount = new int[26];
+            int[] wordCount = new int[26];
+            for (char c : guess.toCharArray()) {
+                guessCount[c - 'a']++;
             }
+            for (char c : randomWord.toCharArray()) {
+                wordCount[c - 'a']++;
+            }
+            for (int i = 0; i < guess.length(); i++) {
+                char guessChar = guess.charAt(i);
+                char wordChar = randomWord.charAt(i);
+                if (guessChar == wordChar && wordCount[guessChar - 'a'] > 0) {
+                    checkedWord[i] = 2;
+                    guessCount[guessChar - 'a']--;
+                    wordCount[guessChar - 'a']--;
+                } else if (wordCount[guessChar - 'a'] > 0) {
+                    checkedWord[i] = 1;
+                    wordCount[guessChar - 'a']--;
+                } else {
+                    checkedWord[i] = 0;
+                }
+            }
+            return checkedWord;
         }
-
-//        for(Integer x: checkedWord) {
-//            System.out.println(x);
-//        }
-
-        return checkedWord;
-    }
 }
 
 

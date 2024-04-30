@@ -1,5 +1,6 @@
 package com.example.finalprojectwordle;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -7,44 +8,45 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-import java.io.IOException;
+import java.io.*;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class Controller {
     @FXML private Button resetButton;
-    @FXML private TextField guess1letter1;
-    @FXML private TextField guess1letter2;
-    @FXML private TextField guess1letter3;
-    @FXML private TextField guess1letter4;
-    @FXML private TextField guess1letter5;
-    @FXML private TextField guess2letter1;
-    @FXML private TextField guess2letter2;
-    @FXML private TextField guess2letter3;
-    @FXML private TextField guess2letter4;
-    @FXML private TextField guess2letter5;
-    @FXML private TextField guess3letter1;
-    @FXML private TextField guess3letter2;
-    @FXML private TextField guess3letter3;
-    @FXML private TextField guess3letter4;
-    @FXML private TextField guess3letter5;
-    @FXML private TextField guess4letter1;
-    @FXML private TextField guess4letter2;
-    @FXML private TextField guess4letter3;
-    @FXML private TextField guess4letter4;
-    @FXML private TextField guess4letter5;
-    @FXML private TextField guess5letter1;
-    @FXML private TextField guess5letter2;
-    @FXML private TextField guess5letter3;
-    @FXML private TextField guess5letter4;
-    @FXML private TextField guess5letter5;
-    @FXML private TextField guess6letter1;
-    @FXML private TextField guess6letter2;
-    @FXML private TextField guess6letter3;
-    @FXML private TextField guess6letter4;
-    @FXML private TextField guess6letter5;
+    @FXML private Label guess1letter1;
+    @FXML private Label guess1letter2;
+    @FXML private Label guess1letter3;
+    @FXML private Label guess1letter4;
+    @FXML private Label guess1letter5;
+    @FXML private Label guess2letter1;
+    @FXML private Label guess2letter2;
+    @FXML private Label guess2letter3;
+    @FXML private Label guess2letter4;
+    @FXML private Label guess2letter5;
+    @FXML private Label guess3letter1;
+    @FXML private Label guess3letter2;
+    @FXML private Label guess3letter3;
+    @FXML private Label guess3letter4;
+    @FXML private Label guess3letter5;
+    @FXML private Label guess4letter1;
+    @FXML private Label guess4letter2;
+    @FXML private Label guess4letter3;
+    @FXML private Label guess4letter4;
+    @FXML private Label guess4letter5;
+    @FXML private Label guess5letter1;
+    @FXML private Label guess5letter2;
+    @FXML private Label guess5letter3;
+    @FXML private Label guess5letter4;
+    @FXML private Label guess5letter5;
+    @FXML private Label guess6letter1;
+    @FXML private Label guess6letter2;
+    @FXML private Label guess6letter3;
+    @FXML private Label guess6letter4;
+    @FXML private Label guess6letter5;
 
     @FXML private Button A;
     @FXML private Button B;
@@ -73,34 +75,30 @@ public class Controller {
     @FXML private Button Y;
     @FXML private Button Z;
 
-    @FXML
-    private Label error;
+    @FXML private Label error;
 
-    private TextField[][] arr = new TextField[6][5];
+//    @FXML private Button loadButton;
+
+    private Label[][] arr = new Label[6][5];
     private Button[] keyboard = new Button[26];
+    private Integer[][] wordColors = new Integer[6][5];
 
     private int currGuessRow = 0;
     private int currGuessCol;
+
+    private int numGamesPlayed = 0;
 
     WordValidation wordValidation = new WordValidation();
     String randomWord = wordValidation.getRandomWord();
 
     private int numTotalWins = 0;
 
-    public int getNumTotalWins() {
-        return numTotalWins;
-    }
-
     int[] guessDistribution = new int[6];
-
-    public int[] getGuessDistribution() {
-        return guessDistribution;
-    }
 
     @FXML
     private void initialize() {
 
-        TextField[][] guesses = {
+        Label[][] guesses = {
                 {guess1letter1, guess1letter2, guess1letter3, guess1letter4, guess1letter5},
                 {guess2letter1, guess2letter2, guess2letter3, guess2letter4, guess2letter5},
                 {guess3letter1, guess3letter2, guess3letter3, guess3letter4, guess3letter5},
@@ -112,7 +110,6 @@ public class Controller {
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 5; j++) {
                 arr[i][j] = guesses[i][j];
-                maxLengthListener(arr[i][j]);
             }
         }
 
@@ -121,11 +118,8 @@ public class Controller {
             keyboard[i] = letters[i];
         }
 
-        disableAllGuessesExceptRow(0);
         resetButton.setOnAction(event -> reset());
-
-//        wordValidation.loadWordsFromFile();
-        System.out.println("random word: " + randomWord);
+//        System.out.println("random word: " + randomWord);
     }
 
     @FXML
@@ -145,19 +139,19 @@ public class Controller {
         int nextRow = row;
         int nextColumn = 0;
 
-        TextField focusedTextField = null;
+        Label focusedLabel = null;
         for (int i = 0; i < 5; i++) {
             if (arr[row][i].isFocused()) {
-                focusedTextField = arr[row][i];
+                focusedLabel = arr[row][i];
                 break;
             }
         }
 
-        if (focusedTextField == null) {
+        if (focusedLabel == null) {
             nextColumn = 0;
         } else {
             for (int i = 0; i < 4; i++) {
-                if (arr[row][i] == focusedTextField) {
+                if (arr[row][i] == focusedLabel) {
                     nextColumn = i + 1;
                     break;
                 }
@@ -168,39 +162,12 @@ public class Controller {
         }
     }
 
-
-    private void disableAllGuessesExceptRow(int row) {
-        for (int i = 0; i < 6; i++) {
-            for (int j = 0; j < 5; j++) {
-                arr[i][j].setDisable(i != row);
-            }
-        }
-    }
-
-    private boolean isRowFull(int row) {
-        for (int j = 0; j < 5; j++) {
-            if (arr[row][j].getText().isEmpty()) {
-                System.out.println(arr[row][j]);
-                return false;
-            }
-        }
-        return true;
-    }
-
-    @FXML
-    private void maxLengthListener(TextField textField) {
-        textField.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue != null && newValue.length() > 1) {
-                textField.setText(newValue.substring(0, 1));
-            }
-        });
-    }
-
     @FXML
     private void clearTextFields() {
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 5; j++) {
-                arr[i][j].clear();
+                arr[i][j].setText("");
+                arr[i][j].setStyle("-fx-border-color: black");
             }
         }
     }
@@ -208,15 +175,9 @@ public class Controller {
     @FXML
     public void reset() {
         clearTextFields();
-        disableAllGuessesExceptRow(0);
         error.setText("");
         currGuessRow = 0;
         System.out.println("Cleared");
-        for(int i = 0; i < 6; i++) {
-            for(int j = 0; j < 5; j++) {
-                arr[i][j].setStyle(null);
-            }
-        }
 
         for(int i = 0; i < 26; i++) {
             keyboard[i].setStyle(null);
@@ -232,7 +193,7 @@ public class Controller {
         for(int j = 0; j < 5; j++) {
             word += arr[currGuessRow][j].getText();
         }
-        return word;
+        return word.toLowerCase();
     }
 
     @FXML
@@ -240,93 +201,210 @@ public class Controller {
 
         String currGuessWord = getWord();
         Integer[] checkedWord = wordValidation.checkWord(currGuessWord.toLowerCase(), randomWord);
+        for(int i = 0; i < 5; i++) {
+            wordColors[currGuessRow][i] = checkedWord[i];
+            System.out.println(wordColors[currGuessRow][i]);
+        }
         currGuessCol = 0;
         System.out.println("Your guess: " + currGuessWord);
-//        WordValidation wordValidation = new WordValidation();
-//        if(!wordValidation.isValidWord(currGuessWord)) {
-//            error.setText("That's an invalid word!");
-//        } else {
-            System.out.println("currRow: " + currGuessRow);
-            if (currGuessRow >= 0 && currGuessRow <= 4) {
-                if (!isRowFull(currGuessRow)) {
-                    error.setText("Please enter the full word.");
-                    System.out.println("Full word not entered");
-                } else {
-                    error.setText("");
-                    setColor(checkedWord);
-                    checkWin(checkedWord);
-                    disableAllGuessesExceptRow(currGuessRow + 1);
-                    System.out.println("Making guess!");
-                    currGuessRow++;
+        WordValidation wordValidation = new WordValidation();
+        if(!wordValidation.isValidWord(currGuessWord)) {
+            error.setText("Please enter a valid word!");
+            currGuessCol = currGuessWord.length();
+
+            Timer timer = new Timer();
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    Platform.runLater(() -> error.setText(""));
                 }
-            } else if (currGuessRow == 5) {
-                if (!isRowFull(5)) {
-                    error.setText("Please enter the full word.");
-                    System.out.println("Full word not entered.");
-                } else {
-                    error.setText("");
-                    for (int i = 0; i < 6; i++) {
-                        for (int j = 0; j < 5; j++) {
-                            arr[i][j].setDisable(true);
-                        }
-                    }
-                    System.out.println("Making sixth and final guess!");
-                }
-            }
-//        }
+            }, 2000);
+        } else {
+//            System.out.println("currRow: " + currGuessRow);
+            error.setText("");
+            setColor(checkedWord);
+            checkWin(checkedWord);
+//            System.out.println("Making guess!");
+            currGuessRow++;
+        }
     }
 
-    public void setColor(Integer [] checkedWord) {
+    public void setColor(Integer[] checkedWord) {
+        String currGuessWord = getWord().toLowerCase();
+        setColor(checkedWord, currGuessRow, currGuessWord);
+    }
 
-        String currGuessWord = getWord();
+    public void setColor(Integer [] checkedWord, int row, String currGuessWord) {
 
-        for(int i = 0; i < 5; i++) {
-            if(checkedWord[i] == 2) {
-                arr[currGuessRow][i].setStyle("-fx-background-color: green");
-                keyboard[((int) currGuessWord.charAt(i)) - 65].setStyle("-fx-background-color: green");
-            } else if (checkedWord[i] == 1) {
-                arr[currGuessRow][i].setStyle("-fx-background-color: orange");
-                keyboard[((int) currGuessWord.charAt(i)) - 65].setStyle("-fx-background-color: orange");
-            } else if (checkedWord[i] == 0) {
-                arr[currGuessRow][i].setStyle("-fx-background-color: gray");
-                keyboard[((int) currGuessWord.charAt(i)) - 65].setStyle("-fx-background-color: gray");
+        if (!currGuessWord.isEmpty() && currGuessWord.length() == 5) {
+            for(int i = 0; i < 5; i++) {
+                if (checkedWord[i] == 2) {
+                    arr[row][i].setStyle("-fx-background-color: green");
+                    keyboard[((int) currGuessWord.charAt(i)) - 97].setStyle("-fx-background-color: green");
+                } else if (checkedWord[i] == 1) {
+                    arr[row][i].setStyle("-fx-background-color: orange");
+                    keyboard[((int) currGuessWord.charAt(i)) - 97].setStyle("-fx-background-color: orange");
+                } else if (checkedWord[i] == 0) {
+                    arr[row][i].setStyle("-fx-background-color: gray");
+                    keyboard[((int) currGuessWord.charAt(i)) - 97].setStyle("-fx-background-color: gray");
+                }
             }
         }
     }
 
     public void checkWin(Integer[] checkedInts) {
-        for(int i = 0; i < 5; i++) {
-            if (checkedInts[i] != 2){
-                return;
+        int sum = 0;
+        for (int i = 0; i < 5; i++) {
+            if (checkedInts[i] == 2) {
+                sum++;
             }
         }
-        error.setText("you won!");
-        for (int i = 0; i < 6; i++) {
-            for (int j = 0; j < 5; j++) {
-                arr[i][j].setDisable(true);
+
+        if(sum == 5) {
+            error.setText("You win!");
+            numTotalWins++;
+            guessDistribution[currGuessRow]++;
+            numGamesPlayed++;
+            displayStatsBoard(true);
+        } else {
+            if(currGuessRow == 5){
+                numGamesPlayed++;
+                displayStatsBoard(false);
             }
         }
-        numTotalWins++;
-        guessDistribution[currGuessRow]++;
-        displayStatsBoard();
     }
 
-    public void displayStatsBoard() {
+    public void displayStatsBoard(boolean win) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("StatsBoard.fxml"));
             Parent root = loader.load();
 
             StatsBoardController statsBoardController = loader.getController();
             statsBoardController.setMainController(this);
-            statsBoardController.updateStats(guessDistribution, numTotalWins);
+            statsBoardController.updateStats(numGamesPlayed, win, guessDistribution, numTotalWins);
 
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.setTitle("Stats Board");
             stage.show();
-//            StatsBoardController.showStats();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
+    @FXML
+    public void delete() {
+        if(currGuessCol > 0) {
+            currGuessCol--;
+            arr[currGuessRow][currGuessCol].setText("");
+            arr[currGuessRow][currGuessCol].setStyle("-fx-border-color: black");
+        }
+    }
+
+    @FXML
+    public void loadButton() {
+        String filePath = "/Users/vedarth/college/CSCE314/FinalProject-Wordle/src/main/java/com/example/finalprojectwordle/savedGame.txt";
+
+        File file = new File(filePath);
+
+        try {
+
+            FileReader fileReader = new FileReader(filePath);
+            BufferedReader reader = new BufferedReader(fileReader);
+
+            if(file.length() != 0) {
+
+                String word = reader.readLine();
+                randomWord = word.toLowerCase();
+//                System.out.println("Loaded game word: " + word);
+                String currRow = reader.readLine();
+                currGuessRow = Integer.parseInt(currRow);
+//                System.out.println("First line: " + currRow);
+                String currCol = reader.readLine();
+                currGuessCol = Integer.parseInt(currCol);
+//                System.out.println("Second line: " + currCol);
+
+                int currentRow = 0;
+                for (int i = 0; i < 12; i++) {
+                    String wordLine = reader.readLine();
+                    if (wordLine == null) break;
+                    String[] characters = wordLine.split("");
+                    for (int col = 0; col < characters.length && col < 5; col++) {
+                        arr[currentRow][col].setText(characters[col].toUpperCase());
+                    }
+                    String colorsLine = reader.readLine();
+                    if (colorsLine == null) break;
+                    String[] colorsCharacters = colorsLine.split("");
+                    for (int col = 0; col < colorsCharacters.length && col < 5; col++) {
+//                        System.out.println(colorsCharacters[col]);
+//                        System.out.println("row " + currentRow);
+//                        System.out.println("col " + col);
+                        wordColors[currentRow][col] = Integer.parseInt(colorsCharacters[col]);
+                    }
+                    currentRow++;
+                    setColor(wordColors[i], i, wordLine);
+                }
+
+            }
+
+            reader.close();
+            fileReader.close();
+        } catch (IOException e) {
+            System.out.println("An error occurred while reading the file: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void saveButton() {
+        String filePath = "/Users/vedarth/college/CSCE314/FinalProject-Wordle/src/main/java/com/example/finalprojectwordle/savedGame.txt";
+
+        try {
+            FileWriter writer = new FileWriter(filePath);
+
+            writer.write(randomWord + "\n");
+            writer.write(currGuessRow + "\n");
+            writer.write(currGuessCol + "\n");
+
+            for(int i = 0; i < 6; i++) {
+
+                boolean x = false;
+                boolean y = false;
+
+                String currWord = "";
+                String currColor = "";
+
+                for(int j = 0; j < 5; j++) {
+
+                    if(!arr[i][j].getText().isEmpty()) {
+                        currWord += arr[i][j].getText().toLowerCase();
+//                        System.out.println("curr letter: " + arr[i][j].getText().toLowerCase());
+                        y = true;
+                    }
+                    if(wordColors[i][j] != null) {
+                        currColor += wordColors[i][j];
+//                        System.out.println("current letter color: " + wordColors[i][j]);
+                        x = true;
+                    }
+                }
+
+                if(y) {
+                    writer.write(currWord + "\n");
+                }
+                if(x) {
+                    writer.write(currColor + "\n");
+                }
+
+            }
+
+            writer.close();
+
+            System.out.println("Data has been written to the file successfully.");
+        } catch (IOException e) {
+            System.out.println("An error occurred while writing to the file: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+    }
+
 }

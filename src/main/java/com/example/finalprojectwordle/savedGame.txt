@@ -1,0 +1,10 @@
+hotel
+3
+5
+stone
+01101
+acrid
+00000
+plumb
+01000
+towel
