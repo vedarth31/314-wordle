@@ -119,7 +119,7 @@ public class Controller {
         }
 
         resetButton.setOnAction(event -> reset());
-//        System.out.println("random word: " + randomWord);
+        System.out.println("random word: " + randomWord);
     }
 
     @FXML
@@ -203,7 +203,7 @@ public class Controller {
         Integer[] checkedWord = wordValidation.checkWord(currGuessWord.toLowerCase(), randomWord);
         for(int i = 0; i < 5; i++) {
             wordColors[currGuessRow][i] = checkedWord[i];
-            System.out.println(wordColors[currGuessRow][i]);
+//            System.out.println(wordColors[currGuessRow][i]);
         }
         currGuessCol = 0;
         System.out.println("Your guess: " + currGuessWord);
