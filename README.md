@@ -8,4 +8,3 @@ Play again can be clicked to start the game with a new word.
 If you are halfway through a game and decide you want to play later, you can save all the guesses so far.
 After clicking reset or opening a new instance of the game, you can click the load button to get the previous progress back.
 
-Link for demonstration video: https://youtu.be/vklQO4Kh9-I
